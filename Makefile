@@ -18,5 +18,5 @@ provisioning:
 
 test: build
 	docker-compose up -d; sleep 10
-	curl --retry 10 --retry-delay 5 -v http://localhost:8080/api/version
+	curl --retry 10 --retry-delay 5 -v http://localhost:8000/api/version
 	docker-compose kill
