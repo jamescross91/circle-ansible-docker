@@ -1,18 +1,14 @@
 # devops/deploy.yml
 - name: CI Test Deployment
   hosts: all
-  sudo: true
+  sudo: false
   vars:
     repository: https://github.com/jamescross91/circle-ansible-docker.git
-    path: /home/ubuntu
+    path: /home/james/sandbox
     image: jamescross91/cd-test
   tasks:
-    - name: Pull github code
-      git: repo={{ repository }}
-           dest={{ path }}
-
     - name: Pull API container
       shell: docker pull {{ image }}
 
     - name: Start API container
-      shell: docker-compose up -d
+      shell: docker run -d -p 8000:8000 {{ image }}
