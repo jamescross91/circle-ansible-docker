@@ -1,0 +1,3 @@
+# devops/requirements.yml
+- src: angstwad.docker_ubuntu
+- src: franklinkim.docker-compose

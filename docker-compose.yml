@@ -1,0 +1,5 @@
+api:
+  build: .
+  ports:
+    - "8080:8080"
+  command: python /usr/src/app/run.py

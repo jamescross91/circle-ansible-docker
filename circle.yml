@@ -1,0 +1,31 @@
+machine:
+  services:
+    - docker
+  python:
+    version: 2.7.8
+  post:
+    # circle instance already run postgresql
+    - sudo service postgresql stop
+
+dependencies:
+  pre:
+    - pip install ansible
+    - pip install --upgrade setuptools
+
+  override:
+    - docker info
+    - docker build -t jamescross91/cd-test .
+
+test:
+  override:
+    - docker-compose up -d
+    - curl http://localhost:8080/api/version
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push nicgirault/cinelocal-api
+      - echo "openstack ansible_host=$PROD_HOST ansible_ssh_user=$PROD_USER" > devops/hosts/production
+      - ansible-playbook -i devops/hosts/production devops/deploy.yml
