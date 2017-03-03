@@ -2,7 +2,7 @@
 whoami := $(shell whoami)
 
 build:
-	docker build -t jamescross91/cd-test .
+	docker-compose build
 
 push: build
 	docker push jamescross91/cd-test
@@ -16,6 +16,7 @@ install:
 provisioning:
 	ansible-playbook devops/provisioning.yml -i devops/hosts/production
 
-test:
+test: build
 	docker-compose up -d; sleep 10
 	curl --retry 10 --retry-delay 5 -v http://localhost:8080/api/version
+	docker-compose kill
