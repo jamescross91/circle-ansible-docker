@@ -6,7 +6,14 @@
     repository: https://github.com/jamescross91/circle-ansible-docker.git
     path: /home/james/sandbox
     image: jamescross91/cd-test
+    container-name: cd-test
   tasks:
+    - name: Stop existing container
+      shell: docker kill {{ container-name }} || true
+
+    - name: Stop existing container
+      shell: docker rm {{ container-name }} || true
+
     - name: Pull API container
       shell: docker pull {{ image }}
 
